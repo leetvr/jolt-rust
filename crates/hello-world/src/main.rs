@@ -1,17 +1,11 @@
-// someday:
-// #![forbid(unsafe_code)]
-
-use std::ffi::{CStr, CString};
-use std::ptr;
-
-// Everything prefixed with `JPC_` comes from the joltc_sys crate.
 use joltc_sys::*;
-
 use rolt::{
     BroadPhaseLayer, BroadPhaseLayerInterface, CastShapeArgs, CastShapeCollectorImpl,
     ClosestHitCastShapeCollector, IntoJolt, ObjectLayer, ObjectLayerPairFilter,
     ObjectVsBroadPhaseLayerFilter, RShapeCast, RVec3, Vec3,
 };
+use std::ffi::{CStr, CString};
+use std::ptr;
 
 const OL_NON_MOVING: JPC_ObjectLayer = 0;
 const OL_MOVING: JPC_ObjectLayer = 1;
@@ -91,9 +85,6 @@ fn main() {
             object_vs_broad_phase_layer_filter,
             object_layer_pair_filter,
         );
-
-        // TODO: register body activation listener
-        // TODO: register contact listener
 
         let body_interface = physics_system.body_interface();
 
