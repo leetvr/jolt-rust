@@ -79,6 +79,52 @@ impl<'physics_system> BodyInterface<'physics_system> {
         unsafe { JPC_BodyInterface_GetCenterOfMassPosition(self.raw, body_id.raw()).into_rolt() }
     }
 
+    pub fn transform(&self, body_id: BodyId) -> glam::Mat4 {
+        unsafe { JPC_BodyInterface_GetWorldTransform(self.raw, body_id.raw()).into_rolt() }
+    }
+
+    pub fn position(&self, body_id: BodyId) -> RVec3 {
+        unsafe { JPC_BodyInterface_GetPosition(self.raw, body_id.raw()).into_rolt() }
+    }
+
+    pub fn set_position(&self, body_id: BodyId, position: RVec3) {
+        unsafe {
+            JPC_BodyInterface_SetPosition(
+                self.raw,
+                body_id.raw(),
+                position.into_jolt(),
+                JPC_ACTIVATION_ACTIVATE,
+            )
+        }
+    }
+
+    pub fn set_position_and_rotation(&self, body_id: BodyId, position: RVec3, rotation: Quat) {
+        unsafe {
+            JPC_BodyInterface_SetPositionAndRotation(
+                self.raw,
+                body_id.raw(),
+                position.into_jolt(),
+                rotation.into_jolt(),
+                JPC_ACTIVATION_ACTIVATE,
+            )
+        }
+    }
+
+    pub fn rotation(&self, body_id: BodyId) -> Quat {
+        unsafe { JPC_BodyInterface_GetRotation(self.raw, body_id.raw()).into_rolt() }
+    }
+
+    pub fn set_rotation(&self, body_id: BodyId, rotation: Quat) {
+        unsafe {
+            JPC_BodyInterface_SetRotation(
+                self.raw,
+                body_id.raw(),
+                rotation.into_jolt(),
+                JPC_ACTIVATION_ACTIVATE,
+            )
+        }
+    }
+
     pub fn linear_velocity(&self, body_id: BodyId) -> Vec3 {
         unsafe { JPC_BodyInterface_GetLinearVelocity(self.raw, body_id.raw()).into_rolt() }
     }

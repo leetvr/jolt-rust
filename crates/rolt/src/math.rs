@@ -148,6 +148,17 @@ impl Color {
     }
 }
 
+impl From<Color> for glam::Vec4 {
+    fn from(color: Color) -> Self {
+        glam::Vec4::new(
+            color.r as f32 / 255.0,
+            color.g as f32 / 255.0,
+            color.b as f32 / 255.0,
+            color.a as f32 / 255.0,
+        )
+    }
+}
+
 impl IntoJolt for Color {
     type Jolt = JPC_Color;
 

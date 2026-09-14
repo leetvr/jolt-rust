@@ -35,6 +35,16 @@ unsafe impl RefTarget for JPC_MutableCompoundShape {
     }
 }
 
+unsafe impl RefTarget for JPC_DistanceConstraint {
+    unsafe fn add_ref(value: *const Self) {
+        JPC_Constraint_AddRef(value.cast::<JPC_Constraint>());
+    }
+
+    unsafe fn release(value: *const Self) {
+        JPC_Constraint_Release(value.cast::<JPC_Constraint>());
+    }
+}
+
 /// Rust equivalent to Jolt's [`RefConst`](https://jrouwe.github.io/JoltPhysicsDocs/5.1.0/class_ref_const.html)
 pub struct RefConst<T: RefTarget> {
     ptr: *const T,
@@ -86,6 +96,10 @@ impl<T: RefTarget> Drop for RefConst<T> {
 pub struct Ref<T: RefTarget> {
     ptr: *mut T,
 }
+
+// TODO(kr) Probably a very bad idea
+unsafe impl<T: RefTarget> Send for Ref<T> {}
+unsafe impl<T: RefTarget> Sync for Ref<T> {}
 
 impl<T: RefTarget> Ref<T> {
     /// Take ownership over a pointer and start reference counting it.
